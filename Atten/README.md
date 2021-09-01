@@ -1,31 +1,13 @@
-# Based on ZAM
+# Searchable-CBAM
+This work is based on:
 ZAM: Zero parameter Attention Module (https://github.com/developer0hye/ZAM)
-
 It is ispired from [BAM](https://arxiv.org/abs/1807.06514) and [CBAM](https://arxiv.org/pdf/1807.06521.pdf).
 
-My work is motivated by the following one question.
+The work is testing whether it is possible to select a proper combination of Channel Attention module and Spatial Attention module for network.
 
-Is it possible to improve performance of CNNs using attention module that has no additional parameters(weight and bias)?
+## Searchable CBAM Module
 
-## ZAM Module
 
-<img src="./figures/ZAM.png" width="80%">
-
-### ZCA: Channel Attention Module in ZAM
-
-<img src="./figures/ZCA.png" width="50%">
-
-### ZSA: Spatial Attention Module in ZAM
-
-<img src="./figures/ZSA.png" width="50%">
-
-### Residual Units
-
-<img src="./figures/Residual Units.png" width="80%">
-
-### Depthwise Separable convolutions with ZAM+R
-
-<img src="./figures/DWConvModule.png" width="80%">
 
 ## Experimental Results
 
@@ -33,51 +15,16 @@ Is it possible to improve performance of CNNs using attention module that has no
 
 This dataset is just like the [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html), except it has 100 classes containing 600 images each. There are 500 training images and 100 testing images per class. The 100 classes in the CIFAR-100 are grouped into 20 superclasses. Each image comes with a "fine" label (the class to which it belongs) and a "coarse" label (the superclass to which it belongs).
 
-### Training Rules
-
-Epochs: 200
-
-Batch Size: 128
-
-Learning Rate:
-- 0.1, if epoch < 60
-- 0.1 * 0.2^1, if 60 <= epoch < 120
-- 0.1 * 0.2^2, if 120 <= epoch < 160
-- 0.1 * 0.2^3, if epoch >= 160
-
-### Resnet18
-
-| Model| Param.| FLOPs.| Acc1.| Acc2.| Acc3.| Acc4.| Acc5.| Best Acc.| Avg Acc.|
-| ----------------- | ----------- |  ----------- | ----------- | ----------- | ----------- | ----------- |----------- |----------- |----------- |
-| ResNet18 | 11.22M      |557.98M      | 76.36%      | 75.94%      | 76.38%      | 76.03%      |76.37%      |76.38%      |76.22% |
-| with CBAM |11.39M     |558.45M      |  76.20% | 76.55%      |       76.23%| 76.26%      |76.16%      |76.55%      |76.28% |
-| with ZAM(Max) |  11.22M     |-     | 75.64% | 75.97%|       76.20%| 75.99%      | 75.87%      |76.20%      |75.93%|
-| with ZAM(Avg) |  11.22M     |-      | 76.89% | 76.77%|       76.51%| 76.45%      | 76.68%      |76.89%      |**76.66%**|
-| with ZAM(Avg&Max) |  **11.22M**     |**558.23M**      | 76.46% |       76.95%|       76.62%| 76.34%      |76.12%      |**76.95%**      |76.50%|
-
-The total number of parameters of resnet18 with ZAM is the same as resnet18, but the resnet18 with ZAM outperformes resnet18 in terms of the accuracy and overall overhead of ZAM is quite small in terms of computation too.
-
-This motivates me to apply ZAM to the light-weight network, MobileNet.
-
-### MobileNet
-
-| Model| Param.| FLOPs.| Acc1.| Acc2.| Acc3.| Acc4.| Acc5.| Best Acc.| Avg Acc.|
-| ----------------- | ----------- |  ----------- | ----------- | ----------- | ----------- | ----------- |----------- |----------- |----------- |
-| MobileNet |   3.31M  | 180.77M| 73.03%      | 72.92%      | 73.08%      | 72.89%      | 72.83%      |73.08%      |72.95% |
-| with CBAM |   3.79M  | 182.50M|  75.65% | 75.11%      |  75.07%| 74.98%      |75.34%      |**75.65%**      |**75.23%**|
-| with ZAM |  3.31M    | -| 71.11% | 71.74%|       71.61%| 71.09%      |71.75%      |71.75%      |71.46%|
-| with ZAM+R | **3.31M**     | 181.46M| 73.59% |  73.44%|  73.68%| 73.27%| 73.51%|73.68%      |73.50%|
+Please see the report "Attention_Module.pdf" for the details of the testing results.
 
 
 ## Run
 
 ```
-python train.py -net resnet18
-python train.py -net resnetcbam18
-python train.py -net resnetzam18
-python train.py -net mobilenet
-python train.py -net mobilenetcbam
-python train.py -net mobilenetzam
+python train_search_structure.py -net resnetcbamss18_2
+python train_search_structure.py -net resnetmvamss18_2
+python train_search_structure.py -net resnetssam18
+
 ``` 
 
 ## Reference
