@@ -6,7 +6,9 @@ It is ispired from [BAM](https://arxiv.org/abs/1807.06514) and [CBAM](https://ar
 The work is testing whether it is possible to select a proper combination of Channel Attention module and Spatial Attention module for network.
 
 ## Searchable CBAM Module
-
+We consider 4 possible combination of the attention module:
+CA+SA, SA+CA, CA, SA, (CA,SA), skip connection
+Here (,) is the parallel operation and + is the sequential operation.
 
 
 ## Experimental Results
