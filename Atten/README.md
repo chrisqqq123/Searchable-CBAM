@@ -1,4 +1,4 @@
-# ZAM
+# Based on ZAM
 ZAM: Zero parameter Attention Module
 
 It is ispired from [BAM](https://arxiv.org/abs/1807.06514) and [CBAM](https://arxiv.org/pdf/1807.06521.pdf).
